@@ -8,6 +8,19 @@ const flash = require('express-flash')
 const db = require('./db/connection.js');
 const app = express()
 
+//Models
+const Tought = require('./models/Tought');
+const User = require('./models/User');
+
+//import Routes
+
+const ToughtsRoutes = require('./routes/ToughtsRoutes')
+const AuthRoutes = require('./routes/AuthRoutes')
+
+const AuthController = require('./controllers/AuthController')
+const ToughtsController = require('./controllers/ToughtsController.js')
+
+//template engine
 app.engine('handlebars', exphbs.engine());
 app.set('view engine', 'handlebars');
 
@@ -43,6 +56,17 @@ app.use((req, res, next)=>{
 
     next()
 })
+
+//Routes
+
+
+
+
+
+app.use('/toughts', ToughtsRoutes)
+app.use('/', AuthRoutes);
+
+app.get('/', ToughtsController.showToughts)
 
 db.sync().then(()=>{
     app.listen(3000, ()=>{
