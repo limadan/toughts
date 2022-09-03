@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars')
 const session = require('express-session')
 const FileStore = require('session-file-store')(session)
 const flash = require('express-flash')
+const checkIfUserIsAuth = require('./helpers/auth.js')
 
 const db = require('./db/connection.js');
 const app = express()
@@ -68,7 +69,7 @@ app.use('/', AuthRoutes);
 
 app.get('/', ToughtsController.showToughts)
 
-db.sync().then(()=>{
+db.sync(/*{force: true}*/).then(()=>{
     app.listen(3000, ()=>{
         console.log(`Servidor rodando! Porta: ${port}`);
     })
